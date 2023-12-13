@@ -1,0 +1,64 @@
+
+.skeleton__title-text
+{
+ background-color: #313131;
+ width: 356px;
+ height: 19px;
+}
+
+.skeleton__title-image {
+ background-color: #313131;
+ width: 51px;
+ height: 51px;
+}
+
+.skeleton__track-author {
+ background-color: #313131;
+ width: 271px;
+ height: 19px;
+}
+
+.skeleton__track-album {
+ background-color: #313131;
+ width: 305px;
+ height: 19px;
+}
+
+.skeleton__track-play-image {
+	background-color: #313131;
+	width: 51px;
+	height: 51px;
+}
+
+.skeleton__track-play-author,
+.skeleton__track-play-album {
+	background-color: #313131;
+	width: 59px;
+	height: 15px;
+}
+
+.skeleton__sidebar-item {
+	background-color: #313131;
+	
+}
+
+.blink {
+	animation-name: blinker;
+	animation-iteration-count: infinite;
+	animation-timing-function: cubic-bezier(1.0,2.0,0,1.0);
+	animation-duration: 5s;
+	-webkit-animation-name: blinker;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: cubic-bezier(1.0,2.0,0,1.0);
+	-webkit-animation-duration: 1s;
+ }
+  
+ @keyframes blinker {
+	from { opacity: 1.0; }
+	to { opacity: 0.6; }
+ }
+  
+ @-webkit-keyframes blinker {
+	from { opacity: 1.0; }
+	to { opacity: 0.6; }
+ }
