@@ -48,7 +48,7 @@ export function Sidebar() {
     navigate('/login')
   }
 
-  const userData = JSON.parse(localStorage.getItem('token'))
+  const userData = JSON.parse(userContext.getItem('token'))
   const userName = userData.username
 
   return (
