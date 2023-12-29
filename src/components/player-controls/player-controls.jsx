@@ -46,13 +46,12 @@ export function PlayerControls({
   const toggleLoop = isLoop ? handleStopLoop : handleLoop
 
   const track = useSelector(currentTrackSelector)
-  // const tracklist = useSelector(currentPlaylistSelector)
+ 
   const tracklist = useSelector(activePlaylistSelector)
 
   const handlePrevTrack = () => {
     if (track) {
       const trackIndex = tracklist.findIndex(el => el.id === track.id)
-      console.log(trackIndex)
       if (trackIndex < tracklist.length && trackIndex > 0 && !shuffle) {
         const prevTrack = tracklist[trackIndex - 1]
         dispatch(setCurrentTrack(prevTrack))
@@ -71,7 +70,7 @@ export function PlayerControls({
     <S.PlayerControls>
       <S.PlayerBtnPrev>
         <S.PlayerBtnPrevSvg alt="prev" onClick={handlePrevTrack}>
-          <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
+          <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
         </S.PlayerBtnPrevSvg>
       </S.PlayerBtnPrev>
       <S.PlayerBtnPlay className="_btn" onClick={togglePlay}>
@@ -88,13 +87,13 @@ export function PlayerControls({
               <rect x="10" width="5" height="19" fill="#D9D9D9" />
             </svg>
           ) : (
-            <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
+            <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
           )}
         </S.PlayerBtnPlaySvg>
       </S.PlayerBtnPlay>
       <S.PlayerBtnNext onClick={handleNextTrack}>
         <S.PlayerBtnNextSvg alt="next">
-          <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
+          <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
         </S.PlayerBtnNextSvg>
       </S.PlayerBtnNext>
       <S.PlayerBtnRepeat className="_btn-icon" onClick={toggleLoop}>
@@ -117,7 +116,7 @@ export function PlayerControls({
           </svg>
         ) : (
           <S.PlayerBtnRepeatSvg alt="repeat">
-            <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
+            <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
           </S.PlayerBtnRepeatSvg>
         )}
       </S.PlayerBtnRepeat>
@@ -141,7 +140,7 @@ export function PlayerControls({
           </svg>
         ) : (
           <S.PlayerBtnShuffleSvg alt="shuffle">
-            <use xlinkHref="img/icon/sprite.svg#icon-shuffle"></use>
+            <use xlinkHref="/img/icon/sprite.svg#icon-shuffle"></use>
           </S.PlayerBtnShuffleSvg>
         )}
       </S.PlayerBtnShuffle>

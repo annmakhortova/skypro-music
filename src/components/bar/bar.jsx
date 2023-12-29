@@ -20,6 +20,7 @@ import { userContext } from '../../context/userContext'
 
 export function Bar({ isLoading }) {
   const track = useSelector(currentTrackSelector)
+
   const isPlaying = useSelector(selectIsPlaying)
   const dispatch = useDispatch(setIsPlaying)
 
@@ -73,7 +74,6 @@ export function Bar({ isLoading }) {
   }
 
   useEffect(handleStart, [track])
-
   
   const handleShuffle = () => {
     let randomIndex = Math.floor(Math.random() * (tracklist.length - 1))
@@ -97,7 +97,7 @@ export function Bar({ isLoading }) {
   }
 
   const endTrack = () => {
-    const trackIndex = tracklist.findIndex(el => el.id === track.id)
+    const trackIndex = tracklist.findIndex(el => el.id === track.id) 
     if (!isLoop) {
       handleNextTrack()
     }
@@ -158,7 +158,7 @@ export function Bar({ isLoading }) {
               <S.VolumeContent>
                 <S.VolumeImage>
                   <S.VolumeSvg alt="volume">
-                    <use xlinkHref="img/icon/sprite.svg#icon-volume"></use>
+                    <use xlinkHref="/img/icon/sprite.svg#icon-volume"></use>
                   </S.VolumeSvg>
                 </S.VolumeImage>
                 <S.VolumeProgress className="_btn">

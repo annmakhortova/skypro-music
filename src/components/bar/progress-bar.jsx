@@ -1,7 +1,7 @@
 import { styled } from 'styled-components'
 
 export const StyledProgressInput = styled.input`
-  --progress-height: 8px;
+  --progress-height: 5px;
   --progress-color: #b672ff;
   --progress-color: ${(props) => props.$color ?? '#b672ff'};
 
@@ -15,6 +15,10 @@ export const StyledProgressInput = styled.input`
   background: transparent;
   position: relative;
   overflow: hidden;
+
+  &:hover {
+    --progress-height: 8px;
+  }
 
   &::-webkit-slider-runnable-track {
     position: relative;

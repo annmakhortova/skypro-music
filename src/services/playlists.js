@@ -58,6 +58,22 @@ export const playlistApi = createApi({
       }),
       invalidatesTags: [DATA_TAG],
     }),
+
+    getSelections: builder.query({
+      query: () => ({
+        url: 'catalog/selection/',
+        method: 'GET',
+      }),
+      providesTags: (result = []) => [DATA_TAG],
+    }),
+
+    getSelectionById: builder.query({
+      query: (id) => ({
+        url: `catalog/selection/${id}`,
+        method: 'GET',
+      }),
+      providesTags: (result = []) => [DATA_TAG],
+    }),
   }),
 })
 
@@ -66,4 +82,6 @@ export const {
   useGetAllTracksQuery,
   useAddFavouriteTracksMutation,
   useDeleteFavouriteTracksMutation,
+  useGetSelectionsQuery,
+  useGetSelectionByIdQuery,
 } = playlistApi

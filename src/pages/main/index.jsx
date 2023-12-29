@@ -10,19 +10,32 @@ import * as S from '../../components/main/main.styles'
 import { useContext } from 'react'
 import { userContext } from '../../context/userContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAllTracks, setIsLoading } from '../../store/slices/trackSlice'
+import {
+  setAllTracks,
+  setIsLoading,
+  setFilters,
+} from '../../store/slices/trackSlice'
 import {
   selectIsLoading,
   currentTrackSelector,
+  filtersSelector,
 } from '../../store/selectors/selectors'
 import { Outlet } from 'react-router-dom'
 
 export const MainPage = () => {
   const isLoading = useSelector(selectIsLoading)
   const dispatch = useDispatch()
- 
+
   const track = useSelector(currentTrackSelector)
   const { token, setToken } = useContext(userContext)
+
+  const filters = useSelector(filtersSelector)
+
+  const search = (event) => {
+    dispatch(
+      setFilters({ ...filters, searchValue: event.target.value, status: true }),
+    )
+  }
 
   return (
     <Wrapper>
@@ -32,9 +45,14 @@ export const MainPage = () => {
           <S.MainCenterblock className="cterblock">
             <S.CenterblockSearch className="search">
               <S.SearchSvg>
-                <use xlinkHref="img/icon/sprite.svg#icon-search"></use>
+                <use xlinkHref="/img/icon/sprite.svg#icon-search"></use>
               </S.SearchSvg>
-              <S.SearchText type="search" placeholder="Поиск" name="search" />
+              <S.SearchText
+                type="search"
+                placeholder="Поиск"
+                name="search"
+                onChange={(event) => search(event)}
+              />
             </S.CenterblockSearch>
 
             <Outlet />
