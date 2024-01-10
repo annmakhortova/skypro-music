@@ -1,0 +1,1 @@
+export const filtersPlaylistSelector = (store) => store.playlist.FiltersPlaylist

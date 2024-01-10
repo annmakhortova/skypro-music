@@ -1,12 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
-import trackSliceReducer from './slices/trackSlice'
-import { playlistApi } from '../services/playlists'
+import { configureStore } from "@reduxjs/toolkit";
+import trackReducer from "./slices/trackSlice";
+import authSlice from "./slices/authSlice";
 
 export const store = configureStore({
     reducer: {
-        currentPlay: trackSliceReducer,
-        [playlistApi.reducerPath]: playlistApi.reducer,
-    },
-
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(playlistApi.middleware),
+        playlist: trackReducer,
+        auth: authSlice,
+    }, 
 })

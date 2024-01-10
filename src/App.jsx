@@ -1,24 +1,52 @@
-import React, { useContext } from 'react'
-import GlobalStyle from './app.styles'
-import { AppRoutes } from './routes'
-import { useState } from 'react'
-import { userContext } from 'react'
+import { AppRoutes } from "./routers";
+import { createGlobalStyle } from "styled-components";
+import React from "react";
+import { useState, useEffect } from "react";
+import { getAllTracks } from "./api/api";
+import Context from "./context";
 
-
-export const useUser = () => useContext(userContext);
-
+const GlobalStyle = createGlobalStyle`
+  *{
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 function App() {
-  const initialToken = localStorage.getItem('token', '')
-  const [token, setToken] = useState(initialToken)
-  const [ user, useUser] = useContext(userContext)
-  
+  const [user, setUser] = useState(localStorage.getItem("user") || null);
+  const [tracks, setTracks] = useState([]);
+  const [loading, setloading] = useState(false);
+  const [tracksError, setTracksError] = useState(null);
+  const [isPlaylist, setPlaylist] = useState();
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    async function Tracks() {
+      try {
+        setloading(true);
+        setTracksError(null);
+        await getAllTracks().then((tracks) => {
+          setTracks(tracks);
+          setPlaylist(tracks)
+          console.log(tracks)
+        });
+      } catch (error) {
+        setTracksError(error.message);
+      } finally {
+        setloading(false);
+      }
+    }
+    Tracks();
+  }, []);
+
   return (
-    <userContext.Provider value={{token, user, setToken, useUser,}}>
-      <AppRoutes />
-      <GlobalStyle />
-    </userContext.Provider>
-  )
+    <>
+      <Context.Provider value={{ user, setUser, loading, tracks, tracksError, isPlaylist, setPlaylist, setTracksError, setloading, setTracks, isLiked, setIsLiked }}>
+        <GlobalStyle />
+        <AppRoutes />
+      </Context.Provider>
+    </>
+  );
 }
 
-export default App
+export default App;
