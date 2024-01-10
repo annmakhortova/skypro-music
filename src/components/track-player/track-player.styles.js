@@ -78,6 +78,7 @@ export const PlayerTrackPlay = styled.div`
   -webkit-box-direction: normal;
   -ms-flex-direction: row;
   flex-direction: row;
+  gap: 20px;
 `
 
 export const TrackPlayLikeDis = styled.div`

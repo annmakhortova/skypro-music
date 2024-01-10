@@ -52,6 +52,14 @@ export const FilterText = styled.li`
   }
 `
 
+export const FilterTextActive = styled.li`
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #ad61ff;
+  text-decoration: underline;
+`
+
 export const CenterblockFilter = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -94,4 +102,22 @@ export const FilterButtonActive = styled(FilterButton)`
   border-color: #b672ff;
   color: #b672ff;
 }
+`
+
+export const CircleCount = styled.div`
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #ad61ff;
+  color: white;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  right: -8px;
+  top: -8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
 `

@@ -7,7 +7,7 @@ import { userContext } from '../../context/userContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { setActivePlaylist, setCurrentPlaylist, setCurrentTrack, setIsLoading, setIsPlaying } from '../../store/slices/trackSlice'
 
-import { selectIsLoading } from '../../store/selectors/selectors'
+import { currentPlaylistSelector, currentTrackSelector, selectIsLoading } from '../../store/selectors/selectors'
 import { useGetAllTracksQuery } from '../../services/playlists'
 
 export const Main = () => { 
@@ -16,6 +16,15 @@ export const Main = () => {
   const isLoading = useSelector(selectIsLoading)
 
   const { data, error, isFetching } = useGetAllTracksQuery()
+  const currentTrack = useSelector(currentTrackSelector)
+
+  const currentPlaylist = useSelector(currentPlaylistSelector)
+
+  useEffect(() => {
+    if (!currentPlaylist) return
+    const track = currentPlaylist?.find((track) => track.id === currentTrack.id)
+    track && dispatch(setCurrentTrack(track))
+  }, [currentPlaylist])
 
   useEffect(() => {
     dispatch(setCurrentPlaylist(data))

@@ -10,20 +10,18 @@ import {
   setIsLoading,
 } from '../../store/slices/trackSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { useGetFavouriteTracksQuery } from '../../services/playlists'
+import { useGetAllTracksQuery, useGetFavouriteTracksQuery } from '../../services/playlists'
 import { useNavigate } from 'react-router-dom'
 import {
+  activePlaylistSelector,
   currentPlaylistSelector,
-  favouritePlaylistSelector,
+  currentTrackSelector,
 } from '../../store/selectors/selectors'
 
 export const FavouritesPage = ({ isLoading }) => {
   const { token, setToken } = useContext(userContext)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  // const tracklist = useSelector(currentPlaylistSelector)
-  // console.log(tracklist)
 
   const { data, error } = useGetFavouriteTracksQuery()
 
@@ -35,12 +33,20 @@ export const FavouritesPage = ({ isLoading }) => {
     }
   }, [error])
 
+  const currentTrack = useSelector(currentTrackSelector)
+
+  const { data: allTracks } = useGetAllTracksQuery()
+
+  useEffect(() => {
+    if(!allTracks) return
+    const track = allTracks?.find((track) => track.id === currentTrack.id)
+    track && dispatch(setCurrentTrack(track))
+  }, [allTracks])
+
   useEffect(() => {
     dispatch(setCurrentPlaylist(data))
-    dispatch(setIsLoading(false))
+    dispatch(setIsLoading(true))
   }, [data])
-
-
 
   if (localStorage.getItem('token', token)) {
     return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { SkeletonTrackPlayer } from '../skeleton/skeleton-trackplayer'
 import *as S from './track-player.styles'
-
+import { Btn } from '../likeButton/btn'
 
 const TrackPlayerLoaded = ({ track }) => {
   
@@ -9,7 +9,7 @@ const TrackPlayerLoaded = ({ track }) => {
     <S.TrackPlayContain>
       <S.TrackPlayImage>
         <S.TrackPlaySvg alt="music">
-          <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+          <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
         </S.TrackPlaySvg>
       </S.TrackPlayImage>
       <S.TrackPlayAuthor>
@@ -32,16 +32,7 @@ export function TrackPlayer({ isLoading, track}) {
     <S.PlayerTrackPlay className="track-play">
       {isLoading ? <SkeletonTrackPlayer /> : <TrackPlayerLoaded track={track}/>}
       <S.TrackPlayLikeDis>
-        <S.TrackPlayLikeBtn className="_btn-icon">
-          <S.TrackPlayLikeSvg className="track-play__like-svg" alt="like">
-            <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
-          </S.TrackPlayLikeSvg>
-        </S.TrackPlayLikeBtn>
-        <S.TrackPlayDislikeBtn className="_btn-icon">
-          <S.TrackPlayDislikeSvg className="track-play__dislike-svg" alt="dislike">
-            <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
-          </S.TrackPlayDislikeSvg>
-        </S.TrackPlayDislikeBtn>
+        <Btn track={track}></Btn>
       </S.TrackPlayLikeDis>
     </S.PlayerTrackPlay>
   )
