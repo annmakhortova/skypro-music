@@ -4,7 +4,7 @@ import React from "react";
 import NavMenu from "../components/NavMenu/NavMenu";
 import Search from "../components/Search/Search";
 import Bar from "../components/Bar/Bar";
-import Sidebar from "../components/Sidebar/Sidebar";
+import Sidebar from "../components/SideBar/SideBar";
 import GlobalStyle from "./styles/Main.styles";
 import { useContext } from "react";
 import Context from "../context";

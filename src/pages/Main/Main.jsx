@@ -1,4 +1,4 @@
-import { SideBar } from "./../../components/SideBar/SideBar";
+import Sidebar from "../../components/SideBar/SideBar";
 import { MainCenterblok } from "./../../components/TrackList/TrackList";
 import { NavMenu } from "./../../components/NavMenu/NavMenu";
 import { AudioPlayer } from "./../../components/AudiopPayer/AudioPlayer";
