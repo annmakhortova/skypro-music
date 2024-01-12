@@ -1,91 +1,87 @@
-import React from "react";
-import * as S from "./Filter.styles"
-import uniq from 'lodash.uniq'
-import { useDispatch, useSelector } from 'react-redux'
-import { TracksFilterCategory } from "./TrackFilterCategory";
-import { setFiltersPlaylist } from "../../store/slices/trackSlice";
-import { filtersPlaylistSelector } from "../../store/selectors";
-import { useContext } from "react";
-import Context from "../../context";
+import React, { useState } from "react";
+import * as S from "./Filter.styles";
+//const S. = S..div``
+export function FilterList(activeFilter) {
+  if (activeFilter === "author") {
+    return (
+      <S.Modal>
+        <S.ModalContent>
+          <S.ModalContentText href="#">MACAN</S.ModalContentText>
+          <S.ModalContentText href="#">XCX</S.ModalContentText>
+          <S.ModalContentText href="#">Rihanna</S.ModalContentText>
+          <S.ModalContentText href="#">DVRST</S.ModalContentText>
+          <S.ModalContentText href="#">Aarne</S.ModalContentText>
+          <S.ModalContentText href="#">Jony</S.ModalContentText>
+        </S.ModalContent>
+      </S.Modal>
+    );
+  }
+  if (activeFilter === "year") {
+    return (
+      <S.Modal>
+        <S.ModalContent>
+          <S.ModalContentText href="#">1998</S.ModalContentText>
+          <S.ModalContentText href="#">2000</S.ModalContentText>
+          <S.ModalContentText href="#">2017</S.ModalContentText>
+          <S.ModalContentText href="#">2020</S.ModalContentText>{" "}
+          <S.ModalContentText href="#">2021</S.ModalContentText>{" "}
+          <S.ModalContentText href="#">2023</S.ModalContentText>
+        </S.ModalContent>
+      </S.Modal>
+    );
+  }
+  if (activeFilter === "genre") {
+    return (
+      <S.Modal>
+        <S.ModalContent>
+          <S.ModalContentText href="#">Hip-hop</S.ModalContentText>
+          <S.ModalContentText href="#">Rock</S.ModalContentText>
+          <S.ModalContentText href="#">Pop music</S.ModalContentText>
+          <S.ModalContentText href="#">Techno</S.ModalContentText>
+          <S.ModalContentText href="#">Indie</S.ModalContentText>
+        </S.ModalContent>
+      </S.Modal>
+    );
+  }
+}
 
-const { useState } = React;
-
-export const Filter = () => {
-  const dispatch = useDispatch()
-  const [activeCategoryFilter, setActiveCategoryFilter] = useState('')
-
-  const selectedFiltersPlaylist = useSelector(filtersPlaylistSelector)
-  const { tracks } = useContext(Context);
-
+export function Filter() {
+  const [activeFilter, setActiveFilter] = useState();
   return (
-    <S.CenterBlockFilter>
-      <S.filterDiv>
-        <S.filterTitle>Искать по:</S.filterTitle>
-        <TracksFilterCategory
-          nameCategory="исполнителю"
-          numberSelectedValues={selectedFiltersPlaylist?.authors.length}
-          content={uniq(
-            tracks?.map((track) => track?.author)
-          ).map((author) => (
-            <S.FilterItem
-              key={author}
-              onClick={() => {
-                dispatch(setFiltersPlaylist({ authors: author }))
-              }}
-              $isSelected={selectedFiltersPlaylist?.authors.includes(author)}
-            >
-              {author}
-            </S.FilterItem>
-          ))}
-          isActiveCategory={activeCategoryFilter}
-          setActiveCategory={setActiveCategoryFilter}
-        />
-        {(
-          <TracksFilterCategory
-            nameCategory="жанру"
-            isActiveCategory={activeCategoryFilter}
-            setActiveCategory={setActiveCategoryFilter}
-            numberSelectedValues={selectedFiltersPlaylist?.genres.length}
-            content={uniq(
-              tracks?.map((track) => track.genre)
-            ).map((genre) => (
-              <S.FilterItem
-                key={genre}
-                onClick={() => {
-                  dispatch(setFiltersPlaylist({ genres: genre }))
-                }}
-                $isSelected={selectedFiltersPlaylist?.genres.includes(genre)}
-              >
-                {genre}
-              </S.FilterItem>
-            ))}
-          />
-        )}
-      </S.filterDiv>
-      <S.filterDiv>
-        <S.filterTitle>Сортировка:</S.filterTitle>
-        <TracksFilterCategory
-          nameCategory={selectedFiltersPlaylist?.sort}
-          isActiveCategory={activeCategoryFilter}
-          setActiveCategory={setActiveCategoryFilter}
-          numberSelectedValues={
-            selectedFiltersPlaylist?.sort === 'По умолчанию' ? 0 : 1
-          }
-          content={['По умолчанию', 'Сначала новые', 'Сначала старые'].map(
-            (item) => (
-              <S.FilterItem
-                key={item}
-                onClick={() => {
-                  dispatch(setFiltersPlaylist({ sort: item }))
-                }}
-                $isSelected={selectedFiltersPlaylist?.sort.includes(item)}
-              >
-                {item}
-              </S.FilterItem>
-            )
-          )}
-        />
-      </S.filterDiv>
-    </S.CenterBlockFilter>
-  )
+    <S.CenterblockFilter>
+      <S.FilterTitle>Искать по:</S.FilterTitle>
+      <S.FilterButton
+        onClick={() =>
+          activeFilter !== "author"
+            ? setActiveFilter("author")
+            : setActiveFilter()
+        }
+      >
+        {" "}
+        исполнителю
+        {activeFilter === "author" && FilterList(activeFilter)}
+      </S.FilterButton>
+
+      <S.FilterButton
+        onClick={() =>
+          activeFilter !== "year" ? setActiveFilter("year") : setActiveFilter()
+        }
+      >
+        {" "}
+        году выпуска
+        {activeFilter === "year" && FilterList(activeFilter)}
+      </S.FilterButton>
+
+      <S.FilterButton
+        onClick={() =>
+          activeFilter !== "genre"
+            ? setActiveFilter("genre")
+            : setActiveFilter()
+        }
+      >
+        жанру
+        {activeFilter === "genre" && FilterList(activeFilter)}
+      </S.FilterButton>
+    </S.CenterblockFilter>
+  );
 }

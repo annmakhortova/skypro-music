@@ -1,58 +1,39 @@
+import { useState } from "react";
+import { NavMyPlaylist } from "../MyPlaylist";
+import { SighInButton } from "../SingIn";
+import { NavMain } from "../Main";
 import React from "react";
-import * as S from "./NavMenu.styles"
-import { useDispatch} from "react-redux";
-import { setAccess, setRefresh, setUserData } from "../../store/slices/authSlice";
-import { useNavigate } from "react-router-dom";
+import * as S from "./NavMenu.styles";
 
-const { useState } = React;
-
-function NavMenu() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch()
+export function NavMenu() {
   const [visible, setVisible] = useState(false);
-  const toggleVisibility = () => setVisible(!visible);
-  function handleLogout() {
-    localStorage.removeItem("authData")
-    dispatch(setUserData(null))
-    dispatch(setRefresh(""))
-    dispatch(setAccess(""))
-    navigate("/login")
-  };
 
   return (
-    <S.mainNav>
-      <S.navLogo>
-        <S.logoImage src="/img/logo.png" alt="logo" />
-      </S.navLogo>
-      <S.navBurger onClick={toggleVisibility}>
-        <S.burgerLine></S.burgerLine>
-        <S.burgerLine></S.burgerLine>
-        <S.burgerLine></S.burgerLine>
-      </S.navBurger>
-      {visible && (
-        <S.navMenu>
-          <S.menuList>
-            <S.menuItem>
-              <S.MenuLink  
-              to="/">
-                Главное
-              </S.MenuLink>
-            </S.menuItem>
-            <S.menuItem>
-              <S.MenuLink to="/favorites">
-                Мой плейлист
-              </S.MenuLink>
-            </S.menuItem>
-            <S.menuItem>
-              <S.MenuLink to="/login" onClick={() => handleLogout()}>
-                Выйти
-              </S.MenuLink>
-            </S.menuItem>
-          </S.menuList>
-        </S.navMenu>
-      )}
-    </S.mainNav>
+    <S.MainNav>
+      <S.NavLogo>
+        <S.LogoImg src="img/logo.png" alt="logo" />
+      </S.NavLogo>
+
+      <S.Burger>
+        <div
+          onClick={() => {
+            setVisible(!visible);
+          }}
+          role="button"
+        >
+          <S.ClickButton src="img/burger.png" alt="logo" />
+        </div>
+      </S.Burger>
+      <S.NavMenu>
+        {visible && (
+          <S.MenuList>
+            <NavMain />
+            <NavMyPlaylist />
+            <SighInButton />
+          </S.MenuList>
+        )}
+      </S.NavMenu>
+    </S.MainNav>
   );
 }
 
-export default NavMenu;
