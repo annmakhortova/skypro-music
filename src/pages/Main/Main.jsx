@@ -1,70 +1,68 @@
-import Sidebar from "../../components/SideBar/SideBar";
-import { MainCenterblok } from "./../../components/TrackList/TrackList";
-import { NavMenu } from "./../../components/NavMenu/NavMenu";
-import { AudioPlayer } from "./../../components/AudiopPayer/AudioPlayer";
-import { Search } from "./../../components/Search/Search";
-import { Filter } from "./../../components/FIlter/Filter";
-import * as S from "./../../App.styles";
+import * as S from "./styles/Main.styles";
+import React, { useEffect } from "react";
+
+import TreckList from "../components/TreckList/TreckList";
+import GlobalStyle from "./styles/Main.styles";
+import { useContext } from "react";
+import Context from "../context";
 import { useSelector } from "react-redux";
-import { playerSelector } from "../../store/selectors/selectors";
-//import { getPlayList } from "../../api";
-//import { useState, useEffect } from "react";
-//import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-export const MainPage = ({
-  setCurrentTrack,
-  isLoading,
-  setLoading,
-  volume,
-  setVolume,
-  isPlaying,
-  setIsPlaying,
-}) => {
-  //setLoading(false);
-  const currentTrackId = useSelector((state) => state.player.id);
-  const currentTrack = useSelector(
-    (state) => state.player.currentTrack.content
+import { useDispatch } from "react-redux";
+import { setAlltracks, tracksRedux } from "../store/slices/trackSlice";
+import { setAccess, setRefresh, setUserData } from "../store/slices/authSlice";
+import { Filter } from "../components/Filter/Filter";
+export const Main = () => {
+  const { loading, tracks, tracksError, setPlaylist } = useContext(Context);
+  const songs = useSelector((state) => state.playlist.tracks);
+  const favorites = useSelector((state) => state.playlist.favorites);
+  const dispatch = useDispatch();
+  const filteredSongs = useSelector(
+    (state) => state.playlist.FiltersPlaylist.filterTracksArr
   );
+
+  useEffect(() => {
+    if (filteredSongs.length === 0) {
+      dispatch(tracksRedux(tracks));
+      setPlaylist(tracks);
+    } else {
+      dispatch(tracksRedux(filteredSongs));
+      setPlaylist(filteredSongs);
+    }
+    // eslint-disable-next-line
+  }, [filteredSongs]);
+
+  useEffect(() => {
+    dispatch(setAlltracks(tracks));
+    // eslint-disable-next-line
+  }, [songs]);
+
+  useEffect(() => {
+    if (tracks.length) {
+      dispatch(tracksRedux(tracks));
+      setPlaylist(songs);
+    }
+    // eslint-disable-next-line
+  }, [dispatch, tracks, favorites]);
+
+  useEffect(() => {
+    if (localStorage.getItem("authData") !== null) {
+      let authData = JSON.parse(localStorage.getItem("authData"));
+      dispatch(setUserData(authData.user));
+      dispatch(setRefresh(authData.refresh));
+      dispatch(setAccess(authData.access));
+    }
+    // eslint-disable-next-line
+  }, []);
+
   return (
-    <S.Container>
-      <S.Main>
-        <NavMenu />
-        <S.MainCentrBlock>
-          <Search />
-          <S.Centerh2>Треки</S.Centerh2>
-          <Filter />
-          <S.CenterblockContent>
-            <S.ContentTitle>
-              <S.PlaylistTitleCol1>Трек</S.PlaylistTitleCol1>
-              <S.PlaylistTitleCol2>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol2>
-              <S.PlaylistTitleCol3>АЛЬБОМ</S.PlaylistTitleCol3>
-              <S.PlaylistTitleCol4>
-                <S.PlayListTitleSvg alt="time">
-                  <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-                </S.PlayListTitleSvg>
-              </S.PlaylistTitleCol4>
-            </S.ContentTitle>
-          </S.CenterblockContent>
-          <S.ContentPlayList>
-            <MainCenterblok
-              isLoading={isLoading}
-              setLoading={setLoading}
-              isPlaying={isPlaying}
-              setIsPlaying={setIsPlaying}
-            />
-          </S.ContentPlayList>
-        </S.MainCentrBlock>
-        <SideBar />
-      </S.Main>
-      {currentTrack && (
-        <AudioPlayer
-          volume={volume}
-          setVolume={setVolume}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          currentTrack={currentTrack}
-        />
+    <>
+      <GlobalStyle />
+      <S.centoblockTittle>Треки</S.centoblockTittle>
+      <Filter />
+      {tracksError ? (
+        <p>Не удалось загрузить плейлист, попробуйте позже</p>
+      ) : (
+        <TreckList tracks={songs} loading={loading} />
       )}
-      <footer className="footer"></footer>
-    </S.Container>
+    </>
   );
 };

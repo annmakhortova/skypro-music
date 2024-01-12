@@ -1,38 +1,26 @@
-import * as S from "./styles/Main.styles";
-import React from "react";
+import React from 'react'
+import * as S from './Filter.styles'
 
-import NavMenu from "../components/NavMenu/NavMenu";
-import Search from "../components/Search/Search";
-import Bar from "../components/Bar/Bar";
-import Sidebar from "../components/SideBar/SideBar";
-import GlobalStyle from "./styles/Main.styles";
-import { useContext } from "react";
-import Context from "../context";
-import { useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
-
-export const Layout = () => {
-  const { user, setUser, loading } = useContext(Context);
-  const currentTrack = useSelector((state) => state.playlist.currentTrack);
-
+export const TracksFilterCategory = ({ nameCategory, content, isActiveCategory, setActiveCategory, numberSelectedValues }) => {
   return (
-    <S.wrapper>
-      <GlobalStyle />
-      <S.container>
-        <S.main>
-          <NavMenu user={user} setUser={setUser} />
-          <S.centroblock>
-            <Search />
+    <S.FilterCategoryName>
+      <S.FilterButton
+        type="button"
+        onClick={() => setActiveCategory(isActiveCategory === nameCategory ? '' : nameCategory)}
+        className={isActiveCategory === nameCategory}
+      >
+        {nameCategory}
+      </S.FilterButton>
 
-            <Outlet />
-          </S.centroblock>
-          <Sidebar loading={loading} />
-        </S.main>
-        {currentTrack ? (
-          <Bar loading={loading} currentTrack={currentTrack} />
-        ) : null}
-        <S.footer></S.footer>
-      </S.container>
-    </S.wrapper>
-  );
-};
+      {numberSelectedValues > 0 && (
+        <S.selectedFilterCount>{numberSelectedValues}</S.selectedFilterCount>
+      )}
+
+      {isActiveCategory === nameCategory && (
+        <S.FilterCategoryMenu>
+          <S.FilterList>{content}</S.FilterList>
+        </S.FilterCategoryMenu>
+      )}
+    </S.FilterCategoryName>
+  )
+}

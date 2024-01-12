@@ -1,98 +1,79 @@
+import React, { useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import * as S from "./SideBar.styles";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import Context from "../../context";
+import { SidebarLink } from "./SideBar.styles";
 
-function Sidebar({ loading }) {
-  const authData = JSON.parse(localStorage.getItem("authData"));
-  function logOut() {
-    localStorage.removeItem("authData");
-    window.location.href = "/login";
-  }
-
+import { useAuth } from "../../auth";
+//const S. = S..div``
+export function SideBar() {
+  const [isLoading, setLoading] = useState(false);
+  const { auth } = useAuth();
+  console.log(auth);
+  setTimeout(() => {
+    setLoading(true);
+  }, 2000);
   return (
     <S.MainSidebar>
-      <S.SidebarPersonal>
-        <S.SidebarPersonalName>{authData.user.username}</S.SidebarPersonalName>
-        <S.SidebarIcon onClick={logOut}>
+      <S.SideBarPersonal>
+        <S.SideBarPersonalName>{auth.email}</S.SideBarPersonalName>
+        <S.SideBarIcon>
           <svg alt="logout">
-            <use xlinkHref="/img/icon/sprite.svg#logout"></use>
+            <use xlinkHref="img/icon/sprite.svg#logout"></use>
           </svg>
-        </S.SidebarIcon>
-      </S.SidebarPersonal>
-      <S.SidebarBlock>
-        <S.SidebarList>
-          <S.SidebarItem>
+        </S.SideBarIcon>
+      </S.SideBarPersonal>
+      <S.SideBarBlock>
+        <S.SideBarList>
+          <S.SideItem>
             <SkeletonTheme
               baseColor="#313131"
               highlightColor="#fff"
               height={150}
               width={250}
             >
-              {loading ? (
-                <Skeleton />
+              {isLoading ? (
+                <SidebarLink to="/category/1">
+                  <S.SideBarImg src="img/playlist01.png" alt="day's playlist" />
+                </SidebarLink>
               ) : (
-                <Link
-                  to={"/categorySongs/1"}
-                  style={{ width: "100%", height: "100%" }}
-                >
-                  <S.SidebarImg
-                    src="/img/classic_music.png"
-                    alt="day's playlist"
-                  />
-                </Link>
+                <Skeleton />
               )}
             </SkeletonTheme>
-          </S.SidebarItem>
-          <S.SidebarItem>
+          </S.SideItem>
+          <S.SideItem>
             <SkeletonTheme
               baseColor="#313131"
               highlightColor="#fff"
               height={150}
               width={250}
             >
-              {loading ? (
-                <Skeleton />
+              {isLoading ? (
+                <SidebarLink to="/category/2">
+                  <S.SideBarImg src="img/playlist02.png" alt="day's playlist" />
+                </SidebarLink>
               ) : (
-                <Link
-                  to={"/categorySongs/2"}
-                  style={{ width: "100%", height: "100%" }}
-                >
-                  <S.SidebarImg
-                    src="/img/electro_music.png"
-                    alt="day's playlist"
-                  />
-                </Link>
+                <Skeleton />
               )}
             </SkeletonTheme>
-          </S.SidebarItem>
-          <S.SidebarItem>
+          </S.SideItem>
+          <S.SideItem>
             <SkeletonTheme
               baseColor="#313131"
               highlightColor="#fff"
               height={150}
               width={250}
             >
-              {loading ? (
-                <Skeleton />
+              {isLoading ? (
+                <SidebarLink to="/category/3">
+                  <S.SideBarImg src="img/playlist03.png" alt="day's playlist" />
+                </SidebarLink>
               ) : (
-                <Link
-                  to={"/categorySongs/3"}
-                  style={{ width: "100%", height: "100%" }}
-                >
-                  <S.SidebarImg
-                    src="/img/rock_music.png"
-                    alt="day's playlist"
-                  />
-                </Link>
+                <Skeleton />
               )}
             </SkeletonTheme>
-          </S.SidebarItem>
-        </S.SidebarList>
-      </S.SidebarBlock>
+          </S.SideItem>
+        </S.SideBarList>
+      </S.SideBarBlock>
     </S.MainSidebar>
   );
 }
-export default Sidebar;
