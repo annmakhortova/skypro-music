@@ -10,7 +10,6 @@ import { setCurrentTrack, setIsPlaying } from '../../store/slices/trackSlice'
 import { useGetAllTracksQuery } from '../../services/playlists'
 import { selectIsLoading } from '../../store/selectors/selectors'
 
-
 const CategoryItems = ({ playlists }) => {
   return (
     <S.SidebarList>
@@ -31,12 +30,14 @@ const SidebarListLoaded = () => {
   return <CategoryItems playlists={PLAYLISTS}></CategoryItems>
 }
 
-export function Sidebar () {
-  const { user, setToken } = useContext(userContext)
-  
+export function Sidebar() {
+  const { setToken } = useContext(userContext)
+
+  const isLoading = useSelector(selectIsLoading)
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const isLoading = useSelector(selectIsLoading)
+
   const { isFetching } = useGetAllTracksQuery()
   
   const handleLogoutBtn = () => {
@@ -45,16 +46,17 @@ export function Sidebar () {
     dispatch(setCurrentTrack({}))
     dispatch(setIsPlaying(false))
     navigate('/login')
-
-    const user = JSON.parse(localStorage.getItem('token'))
-
   }
-     return (
+
+  const userData = JSON.parse(localStorage.getItem('token'))
+  const userName = userData.username
+
+  return (
     <S.MainSidebar>
       <S.SideBarPersonal>
-      <S.SidebarPersonalName>
-      {isLoading ? '' : user.username}
-   </S.SidebarPersonalName>
+        <S.SidebarPersonalName>
+          {isLoading ? '' : userName}
+        </S.SidebarPersonalName>
         <S.SideBarIcon>
           <svg alt="logout" onClick={handleLogoutBtn}>
             <use xlinkHref="/img/icon/sprite.svg#logout"></use>

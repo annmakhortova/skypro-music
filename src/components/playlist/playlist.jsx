@@ -21,13 +21,15 @@ import {
   setIsLoading,
   setCurrentPlaylist,
   setFilteredPlaylist,
-} from '../../store/slices/trackSlice' 
+} from '../../store/slices/trackSlice' //
 
 export const Playlist = ({ tracks }) => {
- const {Data, isLoading, isFetching} = useGetAllTracksQuery()
+  const { isFetching } = useGetAllTracksQuery()
+  const isLoading = useSelector(selectIsLoading)
 
   const dispatch = useDispatch()
-    const secondsToMinutes = (sec) => {
+
+  const secondsToMinutes = (sec) => {
     const min = Math.trunc(sec / 60) + ''
     sec = (sec % 60) + ''
     return min.padStart(2, 0) + ':' + sec.padStart(2, 0)
@@ -139,3 +141,4 @@ export const Playlist = ({ tracks }) => {
     </S.ContentPlaylist>
   )
 }
+
